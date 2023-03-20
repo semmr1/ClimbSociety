@@ -1,0 +1,164 @@
+﻿@* @{ *@
+@*     ViewData["Title"] = "Profile"; *@
+@* } *@
+@* <h1>@ViewData["Title"]</h1> *@
+
+@model ClimbSociety.ViewModels.ProfileViewModel
+@{
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    @* <meta charset="UTF-8"> *@
+    <title>CV @Model.Name</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/css/gdpr.css">
+    <link rel="stylesheet" href="~/css/profile.css">
+    @*<script defer src="~/js/gdpr.js"></script>*@
+    <script src="https://kit.fontawesome.com/4c7a652e55.js" crossorigin="anonymous"></script>
+    <script defer src="~/js/profile.js"></script>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+</head> 
+
+<body>
+<div class="gdpr-container" style="background: none">
+    <h1 id="content-gpdr-consent-status"></h1>
+
+    <div class="content-gdpr-not-chosen hide">
+        <p>Deze content wordt alleen getoond als gdrp consent niet is gekozen.</p>
+    </div>
+
+    <div class="content-gdpr-accept hide">
+        <p>Deze content wordt alleen getoond als gdrp is geaccepteerd.</p>
+    </div>
+
+    <div class="content-gdpr-reject hide">
+        <p>Deze content wordt alleen getoond als gdrp is verworpen.</p>
+    </div>
+
+    <section class="gdpr-consent hide">
+
+        <div class="gdpr-consent__description">
+            <p>Deze website gebruikt cookies.
+            We gebruiken cookies om content te personaliseren, voor social media en het analyseren
+                van verkeer op de website, advertenties.</p>
+        </div>
+
+        <div class="gdpr-consent__choice">
+            <button class="gdpr-consent__button--accept">Ja, natuurlijk</button>
+            <button class="gdpr-consent__button--reject">Neu, misschien later</button>
+        </div>
+    </section>
+</div>
+
+<div class="page">
+    <section class="personalia">
+        <section class="personalia-centered">
+            <img class="person-logo" src="~/images/nonexistant.jpg" alt="pasfoto">
+            <h1 class="person-name">@Model.Name</h1>
+            <p class="person-description">
+                @Model.Description
+            <p>
+        </section>
+
+        <section class="personalia-start">
+            <div class="profile-content__category--hidden-mobile">
+                <h3 class="profile-content__category-title">Eigenschappen</h3>
+                <hr>
+            </div>
+
+            <div class="profile-content__element--hidden-mobile">
+                <ul class="profile-content__element-list">
+                    <li>Doelgericht</li>
+                    <li>Doorzettend</li>
+                    <li>Flexibel</li>
+                </ul>
+            </div>
+
+            <div class="profile-content__category--hidden-mobile">
+                <h3 class="profile-content__category-title">Vaardigheden</h3>
+                <hr>
+            </div>
+    
+            <div class="profile-content__element--hidden-mobile">
+                    <p class="profile-content__skill-bar-left skill1" style="background-color: #04AA6D; border-radius: 15px;">
+                        @Model.Skills.Keys.ElementAt(0)
+                        <span class="profile-content__skill-bar-right" id="skill1">@Model.Skills.Values.ElementAt(0)%</span>
+                </p>
+                    <p class="profile-content__skill-bar-left skill2" style="background-color: #2196F3; border-radius: 15px;">
+                        @Model.Skills.Keys.ElementAt(1)
+                        <span class="profile-content__skill-bar-right" id="skill2">@Model.Skills.Values.ElementAt(1)%</span>
+                </p>
+                    <p class="profile-content__skill-bar-left skill3" style="background-color: #f44336; border-radius: 15px;">
+                        @Model.Skills.Keys.ElementAt(2)
+                        <span class="profile-content__skill-bar-right" id="skill3">@Model.Skills.Values.ElementAt(2)%</span>
+                </p>
+            </div>
+        </section>
+    </section>
+
+
+    <section class="profile">
+
+        <section class="profile-content">
+
+            <div class="profile-content__category--hidden-mobile">
+                <h3 class="profile-content__category-title">Profiel</h3>
+                <form>
+                        <button type="submit" name="chat" id="chat" class="btn btn-secondary btn-sm value" value="@Model.Name" formaction="../Contact">
+                        <i class="fa-solid fa-comments"></i>
+                        Contact
+                    </button>
+                </form>
+                <hr>
+            </div>
+
+            <div class="profile-content__category">
+                <h3 class="profile-content__category-title">Opleidingen</h3>
+                <hr>
+            </div>
+
+            <div class="profile-content__element">
+                <div class="profile-content__element-header">
+                    <h4 class="profile-content__title">Software Enigineering</h4>
+                    <p class="profile-content__period">nov 2021 - mei 2022</p>
+                </div>
+                <p class="profile-content__institute">Universiteit Utrecht, Utrecht</p>
+            </div>
+
+            <div class="profile-content__element">
+                <div class="profile-content__element-header">
+                    <h4 class="profile-content__title">Master Artificial Intelligence</h4>
+                    <p class="profile-content__period">jan 2020 - feb 2021</p>
+                </div>
+                <p class="profile-content__institute">Rijksuniversiteit, Groningen</p>
+            </div>
+
+            <div class="profile-content__category">
+                <h3 class="profile-content__category-title">Werkervaring</h3>
+                <hr>
+            </div>
+
+            <div class="profile-content__element">
+                <div class="profile-content__element-header">
+                    <h4 class="profile-content__title">Medewerker Smartlab</h4>
+                    <p class="profile-content__period">2022</p>
+                </div>
+                <p class="profile-content__institute">Forum, Groningen</p>
+            </div>
+        </section>
+    </section>
+</div>
+
+</body>
+
+</html>
+
+<!-- TODO:
+    Het profiel bevat een overzicht van skills
+    Het profiel bevat een beschrijving/introductie van de developer
+    Het profiel bevat een afbeelding van de developer
+        a. meerdere afbeeldingen toegestaan
+        b. slideshow met afbeeldingen is toegestaan
+ -->

@@ -1,0 +1,49 @@
+﻿
+@model ClimbSociety.Models.Message
+@{
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Form versturen</title>
+    <script defer src="~/js/contact.js"></script>
+    <link rel="stylesheet" href="~/css/contact.css">
+    <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0">
+</head>
+<body>
+<div class="contact-body">
+    <h2>Contact @ViewData["DeveloperName"]</h2>
+        <form class="form-email">
+            @*<form>*@
+            <label for="email">
+                <span>Emailadres:</span>
+                <input type="email" name="Email" id="email" class="form-control" required minlength="8">
+                <span class="emailError" aria-live="polite"></span>
+            </label>
+
+            <label for="subject">
+                <span>Subject:</span>
+                <input type="text" name="Subject" id="subject" class="form-control" required minlength="1" maxlength="200">
+            </label>
+
+            <label for="message">
+                <span>Message:</span>
+                <textarea rows="12" cols="45" type="text" name="MessageText" id="message" class="form-control" required minlength="1" maxlength="600"></textarea>
+            </label>
+
+            <label for="captcha">
+                <canvas id="maths" width="250" height="35"></canvas>
+                <span>Type the given number:</span>
+                <input type="number" name="captcha" id="captcha" class="form-control" required maxlength="5" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                <span class="captchaError" aria-live="polite"></span>
+            </label>
+
+            <input type="submit" id="submit" class="btn btn-secondary btn-sm value" value="Verstuur!">
+        </form>
+    </div>
+</body>
+</html>
+
+
+
