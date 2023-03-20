@@ -2,6 +2,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ClimbSociety.Areas.Identity.Data;
 using ClimbSociety.Data;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
+using Microsoft.AspNetCore.DataProtection;
+
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AuthenticatieContextConnection") ?? throw new InvalidOperationException("Connection string 'AuthenticatieContextConnection' not found.");
 
@@ -16,6 +20,13 @@ builder.Services.AddSession(options =>
     options.IdleTimeout = TimeSpan.FromSeconds(30);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
+});
+
+builder.Services.AddDataProtection().UseCryptographicAlgorithms(
+new AuthenticatedEncryptorConfiguration
+{
+    EncryptionAlgorithm = EncryptionAlgorithm.AES_256_CBC,
+    ValidationAlgorithm = ValidationAlgorithm.HMACSHA256
 });
 
 var app = builder.Build();
