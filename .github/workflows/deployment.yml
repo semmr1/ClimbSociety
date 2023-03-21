@@ -1,0 +1,26 @@
+name: Checkout code
+run-name: ${{ github.actor }} is deploying project 🚀
+on: [push]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Build .NET App
+        run: dotnet build
+      - name: Run Tests
+        run: dotnet test
+#      - name: Script migrations
+#        run: 
+      - name: Publish application
+        run: dotnet publish -c Release -o publish/
+#      - name: Copy files to server
+#        uses: appleboy/scp-action@master
+#        with:
+#          host: ${{ env.SERVER_IP }}
+#          username: ${{ env.USERNAME }}
+#          key: ${{ secrets.SERVER_KEY }}
+#          source: publish/
+#          target: ${{ env.REMOTE_DIRECTORY }}
