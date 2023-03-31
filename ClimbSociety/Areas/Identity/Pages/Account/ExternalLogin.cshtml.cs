@@ -24,17 +24,17 @@ namespace ClimbSociety.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class ExternalLoginModel : PageModel
     {
-        private readonly SignInManager<User> _signInManager;
-        private readonly UserManager<User> _userManager;
-        private readonly IUserStore<User> _userStore;
-        private readonly IUserEmailStore<User> _emailStore;
+        private readonly SignInManager<Climber> _signInManager;
+        private readonly UserManager<Climber> _userManager;
+        private readonly IUserStore<Climber> _userStore;
+        private readonly IUserEmailStore<Climber> _emailStore;
         private readonly IEmailSender _emailSender;
         private readonly ILogger<ExternalLoginModel> _logger;
 
         public ExternalLoginModel(
-            SignInManager<User> signInManager,
-            UserManager<User> userManager,
-            IUserStore<User> userStore,
+            SignInManager<Climber> signInManager,
+            UserManager<Climber> userManager,
+            IUserStore<Climber> userStore,
             ILogger<ExternalLoginModel> logger,
             IEmailSender emailSender)
         {
@@ -198,11 +198,11 @@ namespace ClimbSociety.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private User CreateUser()
+        private Climber CreateUser()
         {
             try
             {
-                return Activator.CreateInstance<User>();
+                return Activator.CreateInstance<Climber>();
             }
             catch
             {
@@ -212,13 +212,13 @@ namespace ClimbSociety.Areas.Identity.Pages.Account
             }
         }
 
-        private IUserEmailStore<User> GetEmailStore()
+        private IUserEmailStore<Climber> GetEmailStore()
         {
             if (!_userManager.SupportsUserEmail)
             {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
-            return (IUserEmailStore<User>)_userStore;
+            return (IUserEmailStore<Climber>)_userStore;
         }
     }
 }

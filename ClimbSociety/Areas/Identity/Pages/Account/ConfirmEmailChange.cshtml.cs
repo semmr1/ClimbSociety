@@ -16,10 +16,10 @@ namespace ClimbSociety.Areas.Identity.Pages.Account
 {
     public class ConfirmEmailChangeModel : PageModel
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<Climber> _userManager;
+        private readonly SignInManager<Climber> _signInManager;
 
-        public ConfirmEmailChangeModel(UserManager<User> userManager, SignInManager<User> signInManager)
+        public ConfirmEmailChangeModel(UserManager<Climber> userManager, SignInManager<Climber> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;

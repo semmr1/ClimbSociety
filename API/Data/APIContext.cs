@@ -14,19 +14,19 @@ namespace API.Data
         {
         }
 
-        public DbSet<Message> Messages { get; set; } = default!;
+        public DbSet<DeveloperMessage> Messages { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Message>().Property(m => m.Id).ValueGeneratedOnAdd();
-            Message message = new()
+            modelBuilder.Entity<DeveloperMessage>().Property(m => m.Id).ValueGeneratedOnAdd();
+            DeveloperMessage message = new()
             {
                 Id = -1,
                 Email = "test@test.nl",
                 Subject = "Test",
                 MessageText = "Dit is een test"
             };
-            modelBuilder.Entity<Message>().HasData(message);
+            modelBuilder.Entity<DeveloperMessage>().HasData(message);
         }
     }
 }

@@ -7,21 +7,27 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using ClimbSociety.Areas.Identity.Data;
+using ClimbSociety.Data;
+using ClimbSociety.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ClimbSociety.Areas.Identity.Pages.Account.Manage
 {
     public class IndexModel : PageModel
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<Climber> _userManager;
+        private readonly SignInManager<Climber> _signInManager;
+        private ClimbSocietyContext _context;
 
         public IndexModel(
-            UserManager<User> userManager,
-            SignInManager<User> signInManager)
+            ClimbSocietyContext context,
+            UserManager<Climber> userManager,
+            SignInManager<Climber> signInManager)
         {
+            _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -56,12 +62,31 @@ namespace ClimbSociety.Areas.Identity.Pages.Account.Manage
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
+            [Required, PersonalData]
+            [DataType(DataType.Text)]
+            [Display(Name = "First name")]
+            public string FirstName { get; set; }
+
+            [Required, PersonalData]
+            [DataType(DataType.Text)]
+            [Display(Name = "Last name")]
+            public string LastName { get; set; }
+
+            [Required, PersonalData]
+            [DataType(DataType.Date)]
+            [Display(Name = "Year of birth")]
+            public DateTime DateOfBirth { get; set; }
+
+            [Required]
+            [Display(Name = "Climbing level")]
+            public string ClimbingLevel { get; set; }
+
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
         }
 
-        private async Task LoadAsync(User user)
+        private async Task LoadAsync(Climber user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
@@ -70,12 +95,18 @@ namespace ClimbSociety.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                DateOfBirth = user.DateOfBirth,
+                ClimbingLevel = user.ClimbingLevel,
                 PhoneNumber = phoneNumber
             };
         }
 
         public async Task<IActionResult> OnGetAsync()
         {
+            var climbingLevels = new SelectList(_context.ClimbingLevels.ToList(), "Level", "Level");
+            ViewData["ClimbingLevels"] = climbingLevels;
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
@@ -111,6 +142,35 @@ namespace ClimbSociety.Areas.Identity.Pages.Account.Manage
                 }
             }
 
+            if(Input.FirstName != user.FirstName)
+            {
+                user.FirstName = Input.FirstName;
+            }
+
+            if (Input.LastName != user.LastName)
+            {
+                user.LastName = Input.LastName;
+            }
+
+            if (Input.DateOfBirth != user.DateOfBirth)
+            {
+                user.DateOfBirth = Input.DateOfBirth;
+            }
+
+            if (Input.ClimbingLevel != user.ClimbingLevel)
+            {
+                user.ClimbingLevel = Input.ClimbingLevel;
+                //user.ClimbingLevel = _context.ClimbingLevels.Where(x => x.Level.Equals(Input.ClimbingLevel)).FirstOrDefault();
+                //var climbingLevels = _context.ClimbingLevels.ToList();
+                //for (int i=0; i<climbingLevels.Count;i++)
+                //{
+                //    if (Input.ClimbingLevel.Equals(climbingLevels[i].Level)) {
+                //        user.ClimbingLevel = climbingLevels[i];
+                //    }
+                //}
+            }
+
+            await _userManager.UpdateAsync(user);
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();

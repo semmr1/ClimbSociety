@@ -17,9 +17,9 @@ namespace ClimbSociety.Areas.Identity.Pages.Account
 {
     public class ResetPasswordModel : PageModel
     {
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<Climber> _userManager;
 
-        public ResetPasswordModel(UserManager<User> userManager)
+        public ResetPasswordModel(UserManager<Climber> userManager)
         {
             _userManager = userManager;
         }

@@ -2,6 +2,8 @@
 using ClimbSociety.Models;
 using ClimbSociety.ViewModels;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace ClimbSociety.Controllers
 {
@@ -28,6 +30,18 @@ namespace ClimbSociety.Controllers
         }
         
         public IActionResult GDPR()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "Moderator")]
+        public IActionResult ManageUsers()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "Administrator")]
+        public IActionResult ManageRoles()
         {
             return View();
         }

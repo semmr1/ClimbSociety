@@ -19,10 +19,10 @@ namespace ClimbSociety.Areas.Identity.Pages.Account
 {
     public class ForgotPasswordModel : PageModel
     {
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<Climber> _userManager;
         private readonly IEmailSender _emailSender;
 
-        public ForgotPasswordModel(UserManager<User> userManager, IEmailSender emailSender)
+        public ForgotPasswordModel(UserManager<Climber> userManager, IEmailSender emailSender)
         {
             _userManager = userManager;
             _emailSender = emailSender;

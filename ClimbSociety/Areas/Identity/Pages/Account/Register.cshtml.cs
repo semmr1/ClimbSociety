@@ -19,25 +19,32 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using ClimbSociety.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using ClimbSociety.Models;
 
 namespace ClimbSociety.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<User> _signInManager;
-        private readonly UserManager<User> _userManager;
-        private readonly IUserStore<User> _userStore;
-        private readonly IUserEmailStore<User> _emailStore;
+        private readonly SignInManager<Climber> _signInManager;
+        private readonly UserManager<Climber> _userManager;
+        private readonly IUserStore<Climber> _userStore;
+        private readonly IUserEmailStore<Climber> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
+        private ClimbSocietyContext _context;
+
         public RegisterModel(
-            UserManager<User> userManager,
-            IUserStore<User> userStore,
-            SignInManager<User> signInManager,
+            ClimbSocietyContext context,
+            UserManager<Climber> userManager,
+            IUserStore<Climber> userStore,
+            SignInManager<Climber> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
+            _context = context;
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
@@ -71,6 +78,16 @@ namespace ClimbSociety.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
+            [Required, PersonalData]
+            [DataType(DataType.Text)]
+            [Display(Name = "First name")]
+            public string FirstName { get; set; }
+
+            [Required, PersonalData]
+            [DataType(DataType.Text)]
+            [Display(Name = "Last name")]
+            public string LastName { get; set; }
+
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -98,11 +115,22 @@ namespace ClimbSociety.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required, PersonalData]
+            [DataType(DataType.Date)]
+            [Display(Name = "Year of birth")]
+            public DateTime DateOfBirth { get; set; }
+
+            [Required]
+            [Display(Name = "Climbing level")]
+            public string ClimbingLevel { get; set; }
         }
 
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task OnGetAsync(string returnUrl = null)   
         {
+            var climbingLevels = new SelectList(_context.ClimbingLevels.ToList(), "Level", "Level");
+            ViewData["ClimbingLevels"] = climbingLevels;
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -111,9 +139,25 @@ namespace ClimbSociety.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            //var climbingLevels = _context.ClimbingLevels.ToList();
+            //for (int i = 0; i < climbingLevels.Count; i++)
+            //{
+            //    if (Input.ClimbingLevel.Equals(climbingLevels[i].Level))
+            //    {
+            //        Input.ClimbingLevel = climbingLevels[i];
+            //    }
+            //}
+
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
+
+                user.FirstName = Input.FirstName;
+                user.LastName = Input.LastName;
+                user.DateOfBirth = Input.DateOfBirth;
+                user.ClimbingLevel = Input.ClimbingLevel;
+                //user.ClimbingLevel = _context.ClimbingLevels.Where(x => x.Level.Equals(Input.ClimbingLevel.Level)).FirstOrDefault();
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
@@ -155,11 +199,11 @@ namespace ClimbSociety.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private User CreateUser()
+        private Climber CreateUser()
         {
             try
             {
-                return Activator.CreateInstance<User>();
+                return Activator.CreateInstance<Climber>();
             }
             catch
             {
@@ -169,13 +213,13 @@ namespace ClimbSociety.Areas.Identity.Pages.Account
             }
         }
 
-        private IUserEmailStore<User> GetEmailStore()
+        private IUserEmailStore<Climber> GetEmailStore()
         {
             if (!_userManager.SupportsUserEmail)
             {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
-            return (IUserEmailStore<User>)_userStore;
+            return (IUserEmailStore<Climber>)_userStore;
         }
     }
 }

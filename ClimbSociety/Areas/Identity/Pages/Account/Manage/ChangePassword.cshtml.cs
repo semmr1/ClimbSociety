@@ -15,13 +15,13 @@ namespace ClimbSociety.Areas.Identity.Pages.Account.Manage
 {
     public class ChangePasswordModel : PageModel
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<Climber> _userManager;
+        private readonly SignInManager<Climber> _signInManager;
         private readonly ILogger<ChangePasswordModel> _logger;
 
         public ChangePasswordModel(
-            UserManager<User> userManager,
-            SignInManager<User> signInManager,
+            UserManager<Climber> userManager,
+            SignInManager<Climber> signInManager,
             ILogger<ChangePasswordModel> logger)
         {
             _userManager = userManager;

@@ -3,66 +3,32 @@ using System.Diagnostics;
 using System;
 using ClimbSociety.Models;
 using ClimbSociety.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ClimbSociety.Controllers
 {
+    [Authorize]
     public class ContactController : Controller
     {
-        public IActionResult Index(string chat)
+        public IActionResult Contact()
         {
-            ViewData["DeveloperName"] = chat;
             return View();
         }
 
-        //[HttpGet]
-        //public IActionResult Create()
-        //{
-        //    Trace.WriteLine("Created form");
-        //    return View();
-        //}
-
-        // [HttpPost]
-        // public IActionResult Create(Person person)
-        // {
-        //     if (ModelState.IsValid)
-        //     {
-        //         Debug.WriteLine("Created person object");
-        //         return View("Thanks", person);
-        //     }
-        //     return View("Index");
-        // }
-
-        [HttpPost]
-        public IActionResult Test()
+        public IActionResult DeveloperProfile()
         {
-            return View("Thanks");
-        }
-        
-        [HttpPost]
-        public IActionResult Send(Message message)
-        {
-            if (ModelState.IsValid)
+            Developer dev = new()
             {
-                using (var client = new HttpClient())
-                {
-                    client.BaseAddress = new Uri("https://localhost:7291/api/messages");
-
-                    //HTTP POST
-                    var postTask = client.PostAsJsonAsync<Message>("message", message);
-                    postTask.Wait();
-
-                    var result = postTask.Result;
-                    if (result.IsSuccessStatusCode)
-                    {
-                        return RedirectToAction("Thanks");
-                    }
+                Id = 1,
+                Name = "David Vulkers",
+                Description = "Als AI specialist ben ik bekwaam in het onderzoeken van zowel de ethische en technische kant van het development proces",
+                Skills = new Dictionary<string, int> {
+                    {"Ethiek", 65},
+                    {"Java", 45},
+                    {"C#", 90}
                 }
-
-                ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
-                //Debug.WriteLine("Created email");
-                //return View("Thanks", message);
-            }
-            return View();
+            };
+            return View(new DeveloperProfileViewModel(dev));
         }
     }
 }

@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Profile";
     ViewData["ActivePage"] = ManageNavPages.Index;
+    ViewBag.ClimbingLevels = ViewData["ClimbingLevels"];
 }
 
 <h3>@ViewData["Title"]</h3>
@@ -14,6 +15,25 @@
             <div class="form-floating mb-3">
                 <input asp-for="Username" class="form-control" placeholder="Please choose your username." disabled />
                 <label asp-for="Username" class="form-label"></label>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.FirstName" class="form-control" aria-required="true" placeholder="John" />
+                <label asp-for="Input.FirstName">First Name</label>
+                @*<span asp-validation-for="Input.FirstName" class="text-danger"></span>*@
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.LastName" class="form-control" aria-required="true" placeholder="Doe" />
+                <label asp-for="Input.LastName">Last Name</label>
+                @*<span asp-validation-for="Input.LastName" class="text-danger "></span>*@
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.DateOfBirth" class="form-control" aria-required="true" placeholder="1/1/2000"/>
+                <label asp-for="Input.DateOfBirth">Date of Birth</label>
+                @*<span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>*@
+            </div>
+            <div class="form-floating mb-3">
+                <select asp-for="Input.ClimbingLevel" class="form-control" aria-required="true" asp-items="ViewBag.ClimbingLevels"></select>
+                <label asp-for="Input.ClimbingLevel">Climbing Level</label>
             </div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number."/>

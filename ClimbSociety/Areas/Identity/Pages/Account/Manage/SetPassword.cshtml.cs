@@ -14,12 +14,12 @@ namespace ClimbSociety.Areas.Identity.Pages.Account.Manage
 {
     public class SetPasswordModel : PageModel
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<Climber> _userManager;
+        private readonly SignInManager<Climber> _signInManager;
 
         public SetPasswordModel(
-            UserManager<User> userManager,
-            SignInManager<User> signInManager)
+            UserManager<Climber> userManager,
+            SignInManager<Climber> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
