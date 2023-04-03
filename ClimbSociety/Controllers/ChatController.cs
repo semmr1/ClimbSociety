@@ -8,6 +8,14 @@ using Microsoft.EntityFrameworkCore;
 using ClimbSociety.Data;
 using ClimbSociety.Models;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Identity.Client;
+using System.Security.Principal;
+using System.Diagnostics;
+using System.Collections.Concurrent;
+using NuGet.Protocol.Plugins;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using ClimbSociety.Areas.Identity.Data;
 
 namespace ClimbSociety
 {
@@ -18,20 +26,45 @@ namespace ClimbSociety
         public ChatController(ClimbSocietyContext context)
         {
             _context = context;
+            
         }
 
         public class ChatHub : Hub
         {
-            public async Task SendMessage(string user, string message)
+            
+            public async Task SendPrivateMessage(string user, string message, string connId)
             {
-                await Clients.All.SendAsync("ReceiveMessage", user, message);
+                //await Clients.All.SendAsync("ReceiveMessage", user, message);
+                await Clients.Client(connId).SendAsync("ReceiveMessage", user, message);
+            }
+
+            public async Task SendMessageToGroup(string groupName, string message, string user)
+            {
+                await Clients.Group(groupName).SendAsync("ReceiveMessage", user, message);
+            }
+
+            public async Task AddToGroup(string groupName, string user)
+            {
+                //await _userManager.FindByIdAsync();
+                await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+
+                await Clients.Group(groupName).SendAsync("JoinedOrLeft", $"{user} has joined the group {groupName}.");
+            }
+
+            public async Task RemoveFromGroup(string groupName)
+            {
+                await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
+
+                await Clients.Group(groupName).SendAsync("JoinedOrLeft", $"{Context.ConnectionId} has left the group {groupName}.");
             }
         }
 
+        [Authorize]
         public IActionResult Chat()
         {
             return View();
         }
+
         // GET: Chat
         public async Task<IActionResult> Index()
         {

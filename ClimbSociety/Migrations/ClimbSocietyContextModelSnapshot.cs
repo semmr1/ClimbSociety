@@ -224,6 +224,30 @@ namespace ClimbSociety.Migrations
                         });
                 });
 
+            modelBuilder.Entity("ClimbSociety.Models.Match", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ClimberId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("PartnerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("YourId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClimberId");
+
+                    b.ToTable("Matches");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -361,6 +385,13 @@ namespace ClimbSociety.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ClimbSociety.Models.Match", b =>
+                {
+                    b.HasOne("ClimbSociety.Areas.Identity.Data.Climber", null)
+                        .WithMany("Matches")
+                        .HasForeignKey("ClimberId");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -410,6 +441,11 @@ namespace ClimbSociety.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ClimbSociety.Areas.Identity.Data.Climber", b =>
+                {
+                    b.Navigation("Matches");
                 });
 #pragma warning restore 612, 618
         }

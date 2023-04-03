@@ -24,8 +24,10 @@ public class ClimbSocietyContext : IdentityDbContext<Areas.Identity.Data.Climber
             modelBuilder.Entity<ClimbingLevel>().HasData(new ClimbingLevel { Level = i + "B" });
             modelBuilder.Entity<ClimbingLevel>().HasData(new ClimbingLevel { Level = i + "C" });
         }
+        modelBuilder.Entity<Climber>()
+            .HasMany(e => e.Matches);
     }
     public DbSet<ClimbingLevel> ClimbingLevels { get; set; } = default!;
-
+    public DbSet<Match> Matches { get; set; } = default!;
     public DbSet<ChatMessage> ChatMessage { get; set; } = default!;
 }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ClimbSociety.Migrations
 {
     /// <inheritdoc />
-    public partial class csociety : Migration
+    public partial class initDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -187,6 +187,25 @@ namespace ClimbSociety.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Matches",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    YourId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PartnerId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ClimberId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Matches", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Matches_AspNetUsers_ClimberId",
+                        column: x => x.ClimberId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.InsertData(
                 table: "ClimbingLevels",
                 column: "Level",
@@ -253,6 +272,11 @@ namespace ClimbSociety.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Matches_ClimberId",
+                table: "Matches",
+                column: "ClimberId");
         }
 
         /// <inheritdoc />
@@ -278,6 +302,9 @@ namespace ClimbSociety.Migrations
 
             migrationBuilder.DropTable(
                 name: "ClimbingLevels");
+
+            migrationBuilder.DropTable(
+                name: "Matches");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

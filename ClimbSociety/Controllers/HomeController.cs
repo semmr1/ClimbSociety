@@ -4,12 +4,15 @@ using ClimbSociety.ViewModels;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
+using Microsoft.AspNetCore.Identity;
+using ClimbSociety.Areas.Identity.Data;
 
 namespace ClimbSociety.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+
 
         private const string PageViews = "PageViews";
 
@@ -20,6 +23,7 @@ namespace ClimbSociety.Controllers
 
         public IActionResult Index()
         {
+            
             UpdatePageViewCookie();
             return View();
         }

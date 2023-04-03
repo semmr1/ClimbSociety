@@ -32,6 +32,11 @@
                         <li class="nav-item">
                             <a class="nav-link" style="color: azure;" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        @if (SignInManager.IsSignedIn(User)) {
+                            <li class="nav-item">
+                                <a class="nav-link" style="color: azure;" asp-area="" asp-controller="Chat" asp-action="Chat">Chat</a>
+                            </li>
+                        }
                         @if (User.IsInRole("Moderator"))
                         {
                             <li class="nav-item">
