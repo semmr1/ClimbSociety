@@ -10,8 +10,7 @@ namespace ClimbSociety.Models
         [ScaffoldColumn(false)]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
-        [ForeignKey("ClimberId")]
-        public string YourId { get; set; }
+        public string MyId { get; set; }
         public string PartnerId { get; set; }
     }
 }

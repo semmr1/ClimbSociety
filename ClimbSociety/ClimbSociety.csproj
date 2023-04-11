@@ -9,12 +9,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Account\**" />
+    <Content Remove="Views\Account\**" />
+    <EmbeddedResource Remove="Views\Account\**" />
+    <None Remove="Views\Account\**" />
+  </ItemGroup>
+
+  <ItemGroup>
 	  <Folder Include="wwwroot\images" />
   </ItemGroup>
 
   <ItemGroup>
+	  <PackageReference Include="DotNetEnv" Version="2.5.0" />
 	  <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.4" />
 	  <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.4" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.4">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.4" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.4">
 	    <PrivateAssets>all</PrivateAssets>

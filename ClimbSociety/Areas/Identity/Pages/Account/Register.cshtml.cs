@@ -12,16 +12,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using ClimbSociety.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-using ClimbSociety.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using ClimbSociety.Models;
+using ClimbSociety.Areas.Identity.Data;
 
 namespace ClimbSociety.Areas.Identity.Pages.Account
 {
@@ -29,6 +27,7 @@ namespace ClimbSociety.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<Climber> _signInManager;
         private readonly UserManager<Climber> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IUserStore<Climber> _userStore;
         private readonly IUserEmailStore<Climber> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
@@ -39,6 +38,7 @@ namespace ClimbSociety.Areas.Identity.Pages.Account
         public RegisterModel(
             ClimbSocietyContext context,
             UserManager<Climber> userManager,
+            RoleManager<IdentityRole> roleManager,
             IUserStore<Climber> userStore,
             SignInManager<Climber> signInManager,
             ILogger<RegisterModel> logger,
@@ -46,6 +46,7 @@ namespace ClimbSociety.Areas.Identity.Pages.Account
         {
             _context = context;
             _userManager = userManager;
+            _roleManager = roleManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
@@ -165,6 +166,13 @@ namespace ClimbSociety.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    var climberRole = _roleManager.FindByNameAsync("Climber").Result;
+
+                    if (climberRole != null)
+                    {
+                        IdentityResult roleresult = await _userManager.AddToRoleAsync(user, climberRole.Name);
+                    }
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);

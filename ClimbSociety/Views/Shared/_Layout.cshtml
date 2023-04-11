@@ -1,8 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity;
 @using ClimbSociety.Areas.Identity.Data
 
-@inject UserManager<ClimbSociety.Areas.Identity.Data.Climber> UserManager
-@inject SignInManager<ClimbSociety.Areas.Identity.Data.Climber> SignInManager
+@inject UserManager<Climber> UserManager
+@inject SignInManager<Climber> SignInManager
 
 <!DOCTYPE html>
 <html lang="en">
@@ -34,19 +34,24 @@
                         </li>
                         @if (SignInManager.IsSignedIn(User)) {
                             <li class="nav-item">
-                                <a class="nav-link" style="color: azure;" asp-area="" asp-controller="Chat" asp-action="Chat">Chat</a>
+                                <a class="nav-link" style="color: azure;" asp-area="" asp-controller="Matches" asp-action="Index">Matches</a>
                             </li>
                         }
-                        @if (User.IsInRole("Moderator"))
+                         @if (SignInManager.IsSignedIn(User)) {
+                            <li class="nav-item">
+                                <a class="nav-link" style="color: azure;" asp-area="" asp-controller="Chats" asp-action="Chat">Chat</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("Moderator") || User.IsInRole("Administrator"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link" style="color: azure;" asp-area="" asp-controller="Home" asp-action="ManageUsers">Users</a>
+                                <a class="nav-link" style="color: azure;" asp-area="" asp-controller="Users" asp-action="Index">Users</a>
                             </li>
                         }
                         @if (User.IsInRole("Administrator"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link" style="color: azure;" asp-area="" asp-controller="Home" asp-action="ManageRoles">Roles</a>
+                                <a class="nav-link" style="color: azure;" asp-area="" asp-controller="Roles" asp-action="Index">Roles</a>
                             </li>
                         }
                     </ul>

@@ -5,7 +5,6 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
 using Microsoft.AspNetCore.Identity;
-using ClimbSociety.Areas.Identity.Data;
 
 namespace ClimbSociety.Controllers
 {

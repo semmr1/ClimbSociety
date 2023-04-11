@@ -1,0 +1,75 @@
+﻿.contact-body {
+    font: 1em sans-serif;
+    max-width: 200px !important;
+    padding: 0;
+    margin: 0 auto;
+}
+
+p {
+    display: block;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px 0 10px 0;
+}
+
+h2 {
+    text-align: center;
+}
+
+input {
+    appearance: none;
+    width: 100%;
+    min-width: 15rem;
+    border: 1px solid #962658;
+    margin: 0;
+    font-family: inherit;
+    font-size: 90%;
+    box-sizing: border-box;
+    background-color: darkslategray;
+}
+
+input:valid {
+/*    outline: #25c05b solid 3px;*/
+    background-color: lightsteelblue;
+}
+
+#maths {
+    display: flex;
+    align-self: center;
+}
+
+/* This is the style of our error messages */
+.error {
+    width: 100%;
+    padding: 0;
+    font-size: 80%;
+    color: white;
+    background-color: #c42641;
+    border-radius: 0 0 5px 5px;
+    box-sizing: border-box;
+}
+
+.error.active {
+    display: block;
+    margin-bottom: 4px;
+    padding: 0.3em;
+}
+
+#submit {
+    min-width: 10rem;
+    font-size: 18px;
+}
+
+label {
+    margin-bottom: 15px;
+    color:azure !important;
+}
+
+#message {
+    resize: none;
+    width: 30em;
+}

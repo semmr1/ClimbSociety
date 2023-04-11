@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ClimbSociety.Data;
 using ClimbSociety.Models;
 using Microsoft.AspNetCore.Identity;
-using ClimbSociety.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
+using ClimbSociety.Areas.Identity.Data;
 
 namespace ClimbSociety.Controllers
 {
@@ -28,20 +21,35 @@ namespace ClimbSociety.Controllers
 
         [HttpPost]
         [Authorize]
-        public void FindMatches()
+        public async Task<IActionResult> FindMatches()
         {
-            var currentUser = _userManager.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
-            var userClimbingLevel = currentUser.ClimbingLevel;
-            var climbersMatchingLevels = _context.Users.Where(c => c.ClimbingLevel == userClimbingLevel).ToList();
+            Climber currentUser;
+            List<Climber> climbersMatchingLevels;
+            try
+            {
+                currentUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+                climbersMatchingLevels = await _context.Climbers.Where(c => c.ClimbingLevel == currentUser.ClimbingLevel).ToListAsync();
+            } catch (Exception)
+            {
+                return RedirectToAction("Index");
+            }
+            
             foreach(var partnerClimber in climbersMatchingLevels)
             {
                 var match = new Match
                 {
-                    YourId = currentUser.Id,
+                    MyId = currentUser.Id,
                     PartnerId = partnerClimber.Id
                 };
-                _context.Matches.Add(match);
+                var matchExists = await _context.Matches.Where(m => m.MyId == m.MyId && m.PartnerId == partnerClimber.Id).ToListAsync();
+
+                if (!(partnerClimber.Id == currentUser.Id) || matchExists.Count == 0)
+                {
+                    _context.Matches.Add(match);
+                    _context.SaveChanges();
+                }
             }
+            return RedirectToAction("Index");
         }
 
         // GET: Matches
@@ -49,7 +57,7 @@ namespace ClimbSociety.Controllers
         {
             return _context.Matches != null ?
                         View(await _context.Matches.ToListAsync()) :
-                        Problem("Entity set 'ClimbSocietyContext.Matches'  is null.");
+                        Problem("Entity set 'ClimbSocietyContext.Matches' is null.");
         }
 
         // GET: Matches/Details/5

@@ -1,8 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using ClimbSociety.Areas.Identity.Data
 
-@inject             SignInManager<ClimbSociety.Areas.Identity.Data.Climber> SignInManager
-@inject             UserManager<ClimbSociety.Areas.Identity.Data.Climber> UserManager
+@inject SignInManager<Climber> SignInManager
+@inject UserManager<Climber> UserManager
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))

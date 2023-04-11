@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Threading.Tasks;
 using ClimbSociety.Models;
 using Microsoft.AspNetCore.Identity;
 
@@ -33,8 +28,5 @@ public class Climber : IdentityUser
     [ForeignKey("Level")]
     //[RegularExpression(@" ([0 - 9][A - C])")]
     public string ClimbingLevel { get; set; }
-
-    //[AllowNull]
-    public List<Match> Matches { get; set; }
 }
 

@@ -1,0 +1,115 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+
+body {
+    margin-bottom: 60px;
+    background-color: #1e1e1e;
+    color:azure
+}
+
+.navbar {
+    background-color: #181818;
+    color: azure !important;
+    max-height: 50px !important;
+    padding-top: .5rem !important;
+    padding-bottom: .5rem !important;
+}
+
+#footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /*height: 2.5rem;*/ /* Footer height */
+    background-color: #181818;
+    border-color: #181818 !important;
+}
+
+#footer-content {
+    justify-content: center !important;
+    display: flex !important;
+}
+
+label {
+    color: black !important;
+}
+
+select {
+    background-color: lightsteelblue !important;
+    color: black !important;
+    outline: none;
+}
+
+/* This is our style for the invalid fields */
+input {
+    /* border-color: #861b2d;*/
+    background-color: lightsteelblue;
+    color: black;
+    border-color: lightslategray !important;
+}
+
+input:valid {
+    background-color: lightsteelblue !important;
+    color: black !important;
+    outline: none;
+}
+
+input:invalid {
+    background-color: lightsteelblue !important;
+    color: black !important;
+    outline: none;
+}
+
+input[type=submit] {
+    background-color: darkslategray !important;
+    outline: none !important;
+    border-color: darkslategray !important;
+    color: azure !important;
+}
+
+input[type=submit]:hover {
+    background-color: #457575 !important;
+}
+
+    textarea:invalid {
+        border-color: #962658;
+        /*outline: #c42641 solid 2px;*/
+        background-color: lightsteelblue !important;
+    }
+
+textarea:valid {
+    /*outline: #617228 solid 3px;*/
+    background-color: lightsteelblue !important;
+}
+
+button {
+    background-color: darkslategray !important;
+    outline: none !important;
+    border-color: darkslategray !important;
+    color: azure !important;
+}
+
+button > a {
+    color: azure !important;
+    text-decoration: none;
+}
+
+button:hover {
+    background-color: #457575 !important;
+}

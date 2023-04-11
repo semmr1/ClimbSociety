@@ -1,0 +1,36 @@
+﻿@model List<ClimbSociety.Areas.Identity.Data.Climber>
+@{
+    ViewData["Title"] = "User Manager";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Manage Users</h2>
+<br />
+<table class="table" style="color: azure !important">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Email</th>
+            <th>Climbing level</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Id</td>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+                <td>@user.UserName</td>
+                <td>@user.ClimbingLevel</td>
+                <td>
+                    <button class="btn btn-link text-dark border-0">
+                        <a asp-action="Delete" asp-route-id="@user.Id">Delete</a>
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

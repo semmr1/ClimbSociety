@@ -1,16 +1,14 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using ClimbSociety.Areas.Identity.Data;
-using ClimbSociety.Data;
 using ClimbSociety.Controllers;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
 using Microsoft.AspNetCore.DataProtection;
-using static ClimbSociety.ChatController;
+using static ClimbSociety.ChatsController;
+using ClimbSociety.Areas.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("ClimbSocietyContextConnection") ?? throw new InvalidOperationException("Connection string 'ClimbSocietyContextConnection' not found.");
-
 builder.Services.AddDbContext<ClimbSocietyContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddDefaultIdentity<Climber>(options => options.SignIn.RequireConfirmedAccount = true)
